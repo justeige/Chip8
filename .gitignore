@@ -1,0 +1,11 @@
+
+*.db
+
+*.opendb
+
+*.ipch
+
+*.user
+
+*.suo
+*Debug/
