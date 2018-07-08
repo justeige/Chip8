@@ -9,3 +9,5 @@
 
 *.suo
 *Debug/
+*sdl2/
+*.lib
