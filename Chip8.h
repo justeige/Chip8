@@ -23,7 +23,6 @@ enum Register {
 const Pixel Black        = 0;
 const Pixel White        = 1;
 const Byte  Pressed      = 1;
-const Word  StartAddress = 0x200;
 
 const Byte Font[] = {
     0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
@@ -46,6 +45,9 @@ const Byte Font[] = {
 
 // ref for Chip8 data taken from: https://en.wikipedia.org/wiki/Chip-8#Virtual_machine_description
 struct Chip8 {
+
+    const static Word StartAddress = 0x200;
+    const static int  WorkingMemory = 4096 - StartAddress;
 
     // data
     Words<4096>  memory = {};

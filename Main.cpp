@@ -17,9 +17,9 @@ int main(int argc, char** argv)
     // check if the file fits into the chip8 memory
     std::ifstream file("PONG.rom", std::ios::binary | std::ios::ate);
     auto fileSize = file.tellg();
-    if (fileSize > 4096 - StartAddress) {
+    if (fileSize > Chip8::WorkingMemory) {
         assert(false);
-        std::cout << "File too big! Expected " << 4096 - StartAddress << " bytes, got " << fileSize << " instead.\n";
+        std::cout << "File too big! Expected " << Chip8::WorkingMemory << " bytes, got " << fileSize << " instead.\n";
         return EXIT_FAILURE;
     }
 
@@ -28,11 +28,11 @@ int main(int argc, char** argv)
 
     // memory test
     {
-        char buffer[4096];
-        file.read(buffer, 4096);
+        std::array<char, Chip8::WorkingMemory> buffer{};
+        file.read(buffer.data(), buffer.size());
 
         Chip8 chip;
-        std::memcpy(chip.memory.data() + StartAddress, buffer, 4096);
+        std::memcpy(chip.memory.data() + Chip8::StartAddress, buffer.data(), buffer.size());
 
         std::cout << std::hex;
         for (std::size_t n = 0; n < chip.memory.size(); ++n) {
@@ -76,7 +76,7 @@ int main(int argc, char** argv)
         Chip8 chip;
         chip.emulate(0x6107);
         assert(chip.V[V1] == 7);
-        assert(chip.PC == StartAddress + 2); // a 2 byte instruction took place
+        assert(chip.PC == Chip8::StartAddress + 2); // a 2 byte instruction took place
         std::cout << chip << '\n';
     }
 
